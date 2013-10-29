@@ -1,5 +1,19 @@
 require 'spec_helper'
 
 describe User do
-  pending "add some examples to (or delete) #{__FILE__}"
+  	before(:each) do
+      @user = User.new(first_name:"Fred", last_name: "Stevens", email:'fred@gmail.com')
+
+    it "has an email" do
+      @user.email.should be_present
+    end
+
+    it "has a first name" do
+      @user.first_name.should be_present
+    end
+
+    it "has a last name" do
+      @user.last_name.should be_present
+    end
+  end
 end
