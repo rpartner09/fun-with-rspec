@@ -98,6 +98,9 @@ Create the comments model:
 	
 	$ bundle exec rails generate model comment comment:text link_id:integer score:integer
 
+
+Make sure the `Comment` model has: `belongs_to :link` and the `Link` model has: `has_many :comments`
+
 _Note that in this migration we have used link_id:integer, instead of link:belongs_to. Both are valid, but I wanted to show you choice. It never hurts to be more specific, and a bit aware of what is going on under the hood. But by the same measure, you don't want to waist your time doing trivial tasks that the framework can handle for you._
 
 Run migrations:
@@ -118,9 +121,7 @@ You should see the following output:
 
 It seems like we may want to use the user object in more places, and possibly in more tests. Let's use some of the rspec and factory_firl framework to make this more DRY ("Don't Repeat Yourself"). 
 
-Let's create a user factory. Run the following rails generator
-
-	$ bundle exec rails generate factory_girl:model User
+Since we are using the factory girls gem, the User factory should already have been created for us when we used the model generator. Awesome! Let's update the factory to be a little more useful to our purposes. 
 
 Edit the `spec/factories/users.rb` file to look like this:
 ```
@@ -174,5 +175,101 @@ def fullname
 end
 ```
 
-Save and re-run specs. Green light? 
+At this point your code should be similar to this: https://github.com/CUNY-TAP/fun-with-rspec/blob/e9c916ce04ab6f55a52f30fe439465d079e17cae/app/models/user.rb
 
+And this:
+https://github.com/CUNY-TAP/fun-with-rspec/blob/e9c916ce04ab6f55a52f30fe439465d079e17cae/spec/models/user_spec.rb 
+
+
+Save and re-run specs. Green light? Yes! But, wait, let's refactor a bit. We should take advantage of ruby's syntax goodness (otherwise known as "syntactic sugar").
+
+The string concatenation is tedious, so lets use string interpolation. And, we don't need to explicitly say `return` (though it is good practice to do so if you are unsure), since a ruby funciton will always return the last statement of the function. 
+
+
+
+Refactor your full name method to look like this. 
+```
+def fullname
+  "#{first_name} #{last_name}"
+end
+```
+Save and rerun specs. We still have a green light!
+
+Okay, let's define the factories for our other models, and make a few more useful tests. And while we are at it, let's make the factories reflect the relationships of the objects. Read more about factory_girl here [https://github.com/thoughtbot/factory_girl/blob/master/GETTING_STARTED.md]
+
+Update the links factory to look like: 
+```
+FactoryGirl.define do
+  factory :link do
+  	url "http://myfavorite.com/thing"
+  	score 0
+  end
+end
+```
+
+And now, let's add a relationship to the users factory like this (don't worry too much about the syntax right now, just know how powerful this is!): 
+```
+FactoryGirl.define do
+  factory :user do
+  	first_name "Fred"
+  	last_name "Stevens"
+  	email "fred@gmail.com"
+  end
+
+  factory :user_with_link, parent: :user do
+  	after(:create) do |user|
+  	  FactoryGirl.create(:link, user:user)
+  	end
+  end
+end
+```
+
+
+And lastly let's add a relationship to the links factory:
+```
+FactoryGirl.define do
+  factory :link do
+  	url "http://myfavorite.com/thing"
+  	score 0
+  end
+
+  factory :link_with_comment, parent: :link do
+  	after(:create) do |link|
+  	  FactoryGirl.create(:comment, link:link)
+  	end
+  end
+end
+```
+
+Let's test our relationship. Update your user_spec to have the following test: 
+```
+  context "with a link" do
+    before(:each) do
+      @user = FactoryGirl.create(:user_with_link)
+    end
+    it "has a link" do
+      @user.links.count.should == 1
+    end
+  end
+```  
+Notice we used a context block here. The idea is that the context is a little different. The scenario, as it were, is a little different. Users with posts, and users without posts might have different requirements and different behaviors. Another good way to think about this is you start very simple, and basic--and then slowly add on more specific tests/code. 
+Run tests... and .... GREEN LIGHT! 
+
+## Part 3
+
+It's time for you to write your own tests and implementations! I've added pending specs to the links and comments specs. It will be your job to suss out what and where implementation is necessary. 
+
+The pending tests will look like 
+
+	it "does something useful"
+
+Make sure to turn them into actual blocks:
+```
+	it "does something useful" do
+		##some code I actually wrote
+		## man this test is super tight!
+	end 
+```
+
+## Extra Credit
+Try implementing a bank account object model, and it's requisite specs. Or if there is another object model you'd like to try, give it a shot. Point out the models/specs in your pull request comments. 
