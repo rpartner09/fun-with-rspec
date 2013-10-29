@@ -53,7 +53,7 @@ group :development, :test do
 end
 ```
 
-Run budler:
+Run bundler:
 
 	$ bundle
 
