@@ -172,7 +172,7 @@ Okay, we have a red light: it's telling us that the User object does not have a 
 Add the following to the user model (`app/models/user.rb`): 
 ```
 def fullname
-  return first_name + " " + self.last_name
+  return first_name + " " + last_name
 end
 ```
 
