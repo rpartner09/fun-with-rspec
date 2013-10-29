@@ -10,7 +10,7 @@ The goal of this lab is to familiarize yourself with:
 * rSpec specs and tests. 
 
 ## Completing the assignment
-Follow setup below. As before, you should fork this repo (only after you've completed the setup, part 1, and part 2 portions of the assignment) and submit your work as a pull request against the master branch of this repo.
+Follow the setup below. Complete parts 1 and 2. After completing part 2, fork this repo into a separate directory, complete part 3 (and the extra credit section if you're up to the challenge), and submit your work as a pull request against the master branch of this repo.
 
 All console/command line commands include the `$` character to indicate that it is the unix command shell. Make sure you do *NOT* include the `$` when you type the commands. (I also encourage you to type them out, and not copy and paste, so that you internalize what you are infact doing).
 
