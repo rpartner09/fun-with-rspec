@@ -16,4 +16,8 @@ describe User do
   it "has a last name" do
     @user.last_name.should be_present
   end
+
+  it "has a fullname" do
+    @user.fullname.should == "Fred Stevens"
+  end
 end

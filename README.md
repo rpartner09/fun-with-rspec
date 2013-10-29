@@ -49,7 +49,7 @@ Set up rails to use rSpec and factory girl: edit your Gemfile to include the fol
 ```
 group :development, :test do
   gem 'rspec-rails', '~> 2.0'
-  gem 'factory_girl'
+  gem "factory_girl_rails", "~> 4.0"
 end
 ```
 
@@ -105,9 +105,74 @@ Run migrations:
 	$ bundle exec rake db:migrate 
 
 ## Part 2 
-Let's write some specs! Rememeber, while some of these tests may seem trivial (and to be honest, they may be, because of the novice level we are at.), however, keep in mind we are writing a specification of how our object model will work. So that we can reference it later. As a second bonus, you'd be surprised at the bugs these tests catch later on in your code lifecycle. 
+Let's write some specs! Rememeber, while some of these tests may seem trivial (and to be honest, they may be, because of the novice level we are at.), keep in mind we are writing a specification of how our object model will work. So that we can reference it later. As a second bonus, you'd be surprised at the bugs these tests catch later on in your code lifecycle. 
 
-Edit your `spec/models/user_spec.rb` to look like this: https://github.com/CUNY-TAP/fun-with-rspec/blob/edaa9c27fcf87295aa4113f2606c9c15133766a9/spec/models/user_spec.rb
+Edit your `spec/models/user_spec.rb` to look like this: https://github.com/CUNY-TAP/fun-with-rspec/commit/84ce6b6a46ed8cfc0caa240f294d5188db67c479#diff-12b107c16792b9ecba685e51b51826f1
 
+Run the specs
+	$ bundle exec rspec
 
+You should see the following output:
+
+	4 examples, 0 failures, 1 pending
+
+It seems like we may want to use the user object in more places, and possibly in more tests. Let's use some of the rspec and factory_firl framework to make this more DRY ("Don't Repeat Yourself"). 
+
+Let's create a user factory. Run the following rails generator
+
+	$ bundle exec rails generate factory_girl:model User
+
+Edit the `spec/factories/users.rb` file to look like this:
+```
+FactoryGirl.define do
+  factory :user do
+  	first_name "Fred"
+  	last_name "Stevens"
+  	email "fred@gmail.com"
+  end
+end
+```
+
+Edit the `before` block to use the Factory:
+
+	@user = FactoryGirl.create(:user)
+
+Run the specs, should see the same tests passing. Progress! Now we have a _scientific_ benchmark to know that our changes and small improvments (which we often call refactoring) haven't broken anything. 
+
+Okay, let's add to our user spec. 
+
+Add the following test: 
+```
+it "has a fullname" do
+  @user.fullname.should == "Fred Stevens"
+end
+```
+
+If you run specs (`bundle exec rspec`), you should get an error, something like this: 
+```
+Failures:
+
+  1) User has a fullname
+     Failure/Error: @user.fullname.should == "Fred Stevens"
+     NoMethodError:
+       undefined method `fullname' for #<User:0x007fd49e34e3e0>
+     # ./spec/models/user_spec.rb:21:in `block (2 levels) in <top (required)>'
+
+Finished in 0.01588 seconds
+5 examples, 1 failure, 1 pending
+
+Failed examples:
+
+rspec ./spec/models/user_spec.rb:20 # User has a fullname
+```
+Okay, we have a red light: it's telling us that the User object does not have a method named "fullname." Sweet, fix that!
+
+Add the following to the user model (`app/models/user.rb`): 
+```
+def fullname
+  return first_name + " " + self.last_name
+end
+```
+
+Save and re-run specs. Green light? 
 
