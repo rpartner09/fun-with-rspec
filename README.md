@@ -82,7 +82,7 @@ Run your migrations to create the tables:
 	
 	$ bundle exec rake db:migrate
 
-Oops, looks like we forgot to add password to the user model, lets create a migration to do that: 
+Oops, looks like we forgot to add password to the user model, let's create a migration to do that: 
 
 	$ bundle exec rails generate migration add_password_to_users
 
@@ -101,7 +101,7 @@ Create the comments model:
 
 Make sure the `Comment` model has: `belongs_to :link` and the `Link` model has: `has_many :comments`
 
-_Note that in this migration we have used link_id:integer, instead of link:belongs_to. Both are valid, but I wanted to show you choice. It never hurts to be more specific, and a bit aware of what is going on under the hood. But by the same measure, you don't want to waist your time doing trivial tasks that the framework can handle for you._
+_Note that in this migration we have used link_id:integer, instead of link:belongs_to. Both are valid, but I wanted to show you choice. It never hurts to be more specific, and a bit aware of what is going on under the hood. But by the same measure, you don't want to waste your time doing trivial tasks that the framework can handle for you._
 
 Run migrations:
 	
@@ -112,16 +112,17 @@ Let's write some specs! Rememeber, while some of these tests may seem trivial (a
 
 Edit your `spec/models/user_spec.rb` to look like this: https://github.com/CUNY-TAP/fun-with-rspec/commit/84ce6b6a46ed8cfc0caa240f294d5188db67c479#diff-12b107c16792b9ecba685e51b51826f1
 
-Run the specs
+Run the specs:
+
 	$ bundle exec rspec
 
 You should see the following output:
 
 	4 examples, 0 failures, 1 pending
 
-It seems like we may want to use the user object in more places, and possibly in more tests. Let's use some of the rspec and factory_firl framework to make this more DRY ("Don't Repeat Yourself"). 
+It seems like we may want to use the user object in more places, and possibly in more tests. Let's use some of the rspec and factory_girl framework to make this more DRY ("Don't Repeat Yourself"). 
 
-Since we are using the factory girls gem, the User factory should already have been created for us when we used the model generator. Awesome! Let's update the factory to be a little more useful to our purposes. 
+Since we are using the factory_girl gem, the User factory should already have been created for us when we used the model generator. Awesome! Let's update the factory to be a little more useful to our purposes. 
 
 Edit the `spec/factories/users.rb` file to look like this:
 ```
