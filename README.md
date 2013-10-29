@@ -104,5 +104,10 @@ Run migrations:
 	
 	$ bundle exec rake db:migrate 
 
+## Part 2 
+Let's write some specs! Rememeber, while some of these tests may seem trivial (and to be honest, they may be, because of the novice level we are at.), however, keep in mind we are writing a specification of how our object model will work. So that we can reference it later. As a second bonus, you'd be surprised at the bugs these tests catch later on in your code lifecycle. 
+
+Edit your `spec/models/user_spec.rb` to look like this: https://github.com/CUNY-TAP/fun-with-rspec/blob/edaa9c27fcf87295aa4113f2606c9c15133766a9/spec/models/user_spec.rb
+
 
 
