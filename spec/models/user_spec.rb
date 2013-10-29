@@ -14,6 +14,6 @@ describe User do
   end
 
   it "has a last name" do
-    @user.last_name.should
+    @user.last_name.should be_present
   end
 end
