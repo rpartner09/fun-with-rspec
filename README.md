@@ -70,13 +70,14 @@ Create the user model:
 
 *Make sure it's creating the `/spec/models/user_spec.rb` file for you. You may have forgotten to run `bundle install`*
 
+*Also, because the link model doesn't exist yet, it's not possible to add the 'link:has_many' association to the 'rails generate model user' code, so you should add 'has_many :links' to user.rb*
+
 Create the link model: 
 	
 	$ bundle exec rails generate model link url:string user:belongs_to score:integer
 
 Make sure the `Link` model contains `belongs_to :user`
 
-Make sure the `User` model contains `has_many :links`
 
 Run your migrations to create the tables: 
 	
@@ -112,6 +113,10 @@ Let's write some specs! Rememeber, while some of these tests may seem trivial (a
 
 Edit your `spec/models/user_spec.rb` to look like this: https://github.com/CUNY-TAP/fun-with-rspec/commit/84ce6b6a46ed8cfc0caa240f294d5188db67c479#diff-12b107c16792b9ecba685e51b51826f1
 
+Prepare your test database:
+
+	$ bundle exec rake db:migrate RAILS_ENV=test
+	
 Run the specs:
 
 	$ bundle exec rspec
