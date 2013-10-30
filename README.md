@@ -176,7 +176,7 @@ def fullname
 end
 ```
 
-At this point your code should be similar to this: https://github.com/CUNY-TAP/fun-with-rspec/app/models/user.rb
+At this point your code should be similar to this: https://github.com/CUNY-TAP/fun-with-rspec/blob/master/app/models/user.rb
 
 And this:
 https://github.com/CUNY-TAP/fun-with-rspec/blob/e9c916ce04ab6f55a52f30fe439465d079e17cae/spec/models/user_spec.rb 
