@@ -70,7 +70,7 @@ Create the user model:
 
 *Make sure it's creating the `/spec/models/user_spec.rb` file for you. You may have forgotten to run `bundle install`*
 
-Create the status model: 
+Create the link model: 
 	
 	$ bundle exec rails generate model link url:string user:belongs_to score:integer
 
