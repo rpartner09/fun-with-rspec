@@ -184,7 +184,7 @@ end
 At this point your code should be similar to this: https://github.com/CUNY-TAP/fun-with-rspec/blob/master/app/models/user.rb
 
 And this:
-https://github.com/CUNY-TAP/fun-with-rspec/blob/master/spec/models/user_spec_intermediate.rb 
+https://github.com/CUNY-TAP/fun-with-rspec/blob/df8bd5093e9137583e8fc9fd0149bb5418a60994/spec/models/user_spec.rb 
 
 
 Save and re-run specs. Green light? Yes! But, wait, let's refactor a bit. We should take advantage of ruby's syntax goodness (otherwise known as "syntactic sugar").
