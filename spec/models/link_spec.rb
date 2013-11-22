@@ -5,9 +5,13 @@ describe Link do
   	@link = FactoryGirl.create(:link)
   end
 
-  it "has a url"
+  it "has a url" do
+    @link.url.should be_present
+  end
 
-  it "has a score"
+  it "has a score" do
+    @link.score.should be_present
+  end
 
   it "belongs to a user" do
   	user = FactoryGirl.create(:user)
@@ -21,7 +25,9 @@ describe Link do
   		@link = FactoryGirl.create(:link_with_comment)
   	end
 
-    it "has a comment"
+    it "has a comment" do
+      @link.comments.count.should == 1
+    end
 
     it "updates its cumulative score when a comment gets a score" do
       ## This one is tricky. You'll have to have several lines of code here. 
